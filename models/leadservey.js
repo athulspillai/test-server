@@ -47,7 +47,6 @@ const leadserveySchema = new mongoose.Schema({
     },
     Addr2: {
         type: String,
-        required: true
     },
     State: {
         type: String,
@@ -75,7 +74,6 @@ const leadserveySchema = new mongoose.Schema({
     },
     AltMobNum: {
         type: Number,
-        required: true
     },
     EmailId: {
         type: String,
@@ -98,7 +96,7 @@ const leadserveySchema = new mongoose.Schema({
         required: true,
     },
     ApproxQtyBuyinKg: {
-        type: String,
+        type: Number,
         required: true
     },
     DaPurVal: {
