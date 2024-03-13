@@ -16,4 +16,22 @@ router.get('/leadserveys', async (req, res) => {
     }
 })
 
+// Your route handler (assuming it's part of your Express.js app)
+router.get('/leadserveys/:leadserveyid', async (req, res) => {
+    try {
+        const leadserveyid = req.params.leadserveyid;
+        // Assuming Leadservey is your Mongoose model for leadserveys
+        const leadservey = await Leadservey.findOne({ leadserveyid });
+        if (!leadservey) {
+            return res.status(404).json({ message: "Leadservey not found." });
+        }
+        res.status(200).json(leadservey);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error while fetching leadservey details." });
+    }
+});
+
+
+
 export default router
