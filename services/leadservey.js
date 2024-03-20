@@ -16,8 +16,8 @@ const LeadserveyService = {
     },
     DeleteLeadservey: async (leadserveyid) => {
         try {
-            const deleteLeadservey = await Leadservey.findOneAndDelete({ leadserveyid})
-            
+            const deleteLeadservey = await Leadservey.findOneAndDelete({ leadserveyid })
+
             if (!deleteLeadservey) {
                 throw {
                     status: 404,
@@ -30,6 +30,16 @@ const LeadserveyService = {
                 status: 500,
                 message: 'Error while deleting Leadservey'
             }
+        }
+    },
+    DeleteAllLeadserveys: async () => {
+        try {
+            await Leadservey.deleteMany({});
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Error while deleting all Leadserveys'
+            };
         }
     }
 }

@@ -86,6 +86,16 @@ router.get('/leadprocessing', async (req, res) => {
     }
 });
 
+router.delete('/delete-all-leadprocessing', async (req, res) => {
+    try {
+        await Leadprocessing.deleteMany({});
+        res.status(200).json({ message: 'All leadprocessing entries deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting all leadprocessing entries:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 export default router;
 
 

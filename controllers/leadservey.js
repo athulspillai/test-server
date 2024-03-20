@@ -12,14 +12,23 @@ const LeadserveyController = {
         }
     },
 
-    DeleteLeadservey: async (req,res) => {
+    DeleteLeadservey: async (req, res) => {
         const { leadserveyid } = req.body;
         try {
             await LeadserveyService.DeleteLeadservey(leadserveyid);
-            res.status(200).json({ message: 'Leadservey is deleted'})
+            res.status(200).json({ message: 'Leadservey is deleted' })
         } catch (error) {
             console.error('Error while deleting Leadservey:', error);
-            res.status(error?.status || 500).json({ message: error?.message || 'Errro while deleting leadservey'})
+            res.status(error?.status || 500).json({ message: error?.message || 'Errro while deleting leadservey' })
+        }
+    },
+    DeleteAllLeadserveys: async (req, res) => {
+        try {
+            await LeadserveyService.DeleteAllLeadserveys();
+            res.status(200).json({ message: 'All leadserveys deleted successfully' });
+        } catch (error) {
+            console.error('Error while deleting all leadserveys:', error);
+            res.status(error.status || 500).json({ message: error.message || 'Error while deleting all leadserveys' });
         }
     }
 }

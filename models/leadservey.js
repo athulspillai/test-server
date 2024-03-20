@@ -69,8 +69,15 @@ const leadserveySchema = new mongoose.Schema({
         required: true
     },
     MobNum: {
-        type: Number,
-        required: true
+        type: String, // Change the type to String
+        required: true,
+        validate: {
+            validator: function (v) {
+                // Regular expression to check for 10-digit numbers
+                return /^[0-9]{10}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid 10-digit phone number!`
+        }
     },
     AltMobNum: {
         type: Number,
