@@ -63,29 +63,34 @@ const leadserveySchema = new mongoose.Schema({
     PinCode: {
         type: Number,
         required: true,
+        validate: {
+            validator: function(v) {
+                return /^\d{6}$/.test(v); // Checks if PinCode is a 6-digit number
+            },
+            message: props => `${props.value} is not a valid 6-digit PinCode!`
+        }
     },
     Country: {
         type: String,
         required: true
     },
     MobNum: {
-        type: String, // Change the type to String
+        type: Number,
         required: true,
         validate: {
-            validator: function (v) {
-                // Regular expression to check for 10-digit numbers
-                return /^[0-9]{10}$/.test(v);
+            validator: function(v) {
+                return /^\d{10}$/.test(v); // Checks if MobNum is a 10-digit number
             },
-            message: props => `${props.value} is not a valid 10-digit phone number!`
+            message: props => `${props.value} is not a valid 10-digit Mobile Number!`
         }
     },
     AltMobNum: {
         type: Number,
         validate: {
-            validator: function (v) {
-                return /^[0-9]{10}$/.test(v);
+            validator: function(v) {
+                return /^\d{10}$/.test(v) || v === undefined; // Checks if AltMobNum is a 10-digit number or undefined
             },
-            message: props => `${props.value} is not a valid 10-digit phone number!`
+            message: props => `${props.value} is not a valid 10-digit Mobile Number!`
         }
     },
     EmailId: {
