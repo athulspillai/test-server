@@ -65,7 +65,7 @@ const leadserveySchema = new mongoose.Schema({
         required: true,
         valiadate: {
             validate: function (v) {
-                return /^[0-9]{10}$/.test(v);
+                return /^[0-5]{6}$/.test(v);
             },
             message: props => `${props.value} is not a valid 6-digit pincode!`
         }
