@@ -62,7 +62,13 @@ const leadserveySchema = new mongoose.Schema({
     },
     PinCode: {
         type: Number,
-        required: true
+        required: true,
+        valiadate: {
+            validate: function (v) {
+                return /^[0-9]{10}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid 6-digit pincode!`
+        }
     },
     Country: {
         type: String,
@@ -81,6 +87,12 @@ const leadserveySchema = new mongoose.Schema({
     },
     AltMobNum: {
         type: Number,
+        validate: {
+            validator: function (v) {
+                return /^[0-9]{10}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid 10-digit phone number!`
+        }
     },
     EmailId: {
         type: String,
