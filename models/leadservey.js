@@ -63,7 +63,7 @@ const leadserveySchema = new mongoose.Schema({
     PinCode: {
         type: Number,
         required: true,
-        valiadate: {
+        validate: {
             validator: function (v) {
                 return /^[0-5]{6}$/.test(v);
             },
