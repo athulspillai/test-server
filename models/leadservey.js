@@ -21,7 +21,7 @@ const leadserveySchema = new mongoose.Schema({
         type: Number,
         required: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /^\d{4}$/.test(v);
             },
             message: props => `${props.value} is not a valid 4-digit years!`
@@ -41,11 +41,23 @@ const leadserveySchema = new mongoose.Schema({
     },
     FName: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: function (v) {
+                return /^[a-zA-Z]+$/.test(v); // Validates that only alphabetic characters are present
+            },
+            message: props => `${props.value} can only contain alphabetic characters!`
+        }
     },
     LName: {
         type: String,
-        required: true
+        required: true,
+        validate: {
+            validator: function (v) {
+                return /^[a-zA-Z]+$/.test(v); // Validates that only alphabetic characters are present
+            },
+            message: props => `${props.value} can only contain alphabetic characters!`
+        }
     },
     Addr1: {
         type: String,
@@ -70,7 +82,7 @@ const leadserveySchema = new mongoose.Schema({
         type: Number,
         required: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /^\d{6}$/.test(v); // Checks if PinCode is a 6-digit number
             },
             message: props => `${props.value} is not a valid 6-digit PinCode!`
@@ -84,7 +96,7 @@ const leadserveySchema = new mongoose.Schema({
         type: Number,
         required: true,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /^\d{10}$/.test(v); // Checks if MobNum is a 10-digit number
             },
             message: props => `${props.value} is not a valid 10-digit Mobile Number!`
@@ -93,7 +105,7 @@ const leadserveySchema = new mongoose.Schema({
     AltMobNum: {
         type: Number,
         validate: {
-            validator: function(v) {
+            validator: function (v) {
                 return /^\d{10}$/.test(v) || v === undefined; // Checks if AltMobNum is a 10-digit number or undefined
             },
             message: props => `${props.value} is not a valid 10-digit Mobile Number!`
