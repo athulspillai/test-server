@@ -18,11 +18,17 @@ const leadserveySchema = new mongoose.Schema({
         required: true
     },
     Since: {
-        type: String,
+        type: Number,
         required: true,
+        validate: {
+            validator: function(v) {
+                return /^\d{4}$/.test(v);
+            },
+            message: props => `${props.value} is not a valid 4-digit years!`
+        }
     },
     Yrs: {
-        type: String,
+        type: Number,
         required: true
     },
     BizType: {
