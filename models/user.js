@@ -53,7 +53,11 @@ const userSchema = new Schema({ // Use Schema instead of mongoose.Schema
             type: Schema.Types.ObjectId,
             ref: 'Leadprocessing'
         }
-    ]
+    ],
+    lastLogin: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 const User = mongoose.model('User', userSchema);

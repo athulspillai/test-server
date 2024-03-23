@@ -13,17 +13,6 @@ const UserController = {
         }
     },
 
-    // LoginUser: async (req, res) => {
-    //     try {
-    //         const { username, password } = req.body;
-    //         const result = await UserService.LoginUser(username, password);
-
-    //         res.status(result.status).json({ token: result.token, roles: result.roles, template: result.template, forms: result.forms, reports: result.reports, userid: result.userid});
-    //     } catch (error) {
-    //         res.status(error.status).json({ message: error.message });
-    //     }
-    // },
-
     LoginUser: async (req, res) => {
         try {
             const { username, password } = req.body;

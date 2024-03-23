@@ -23,55 +23,38 @@ const UserService = {
         }
     },
 
-    // LoginUser: async (username, password) => {
-    //     try {
-    //         const user = await User.findOne({ username });
-    
-    //         if (!user) {
-    //             throw { status: 401, message: 'ID IS INCORRECT' };
-    //         }
-    
-    //         if (user.password !== password) {
-    //             throw { status: 401, message: 'PASSWORD IS INCORRECT' };
-    //         }
-    
-    //         const token = jwt.sign({ userId: user._id }, 'your-secret-key');
-    //         const { roles, template, modulegroupname, forms, reports, userid,   } = user;
-
-    //         return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, message: 'Login successful.' };
-    //     } catch (error) {
-    //         throw { status: 500, message: 'Error logging in.' };
-    //     }
-    // },
-
     LoginUser: async (username, password) => {
         try {
             const user = await User.findOne({ username });
-    
+
             if (!user) {
                 throw { status: 401, message: 'ID IS INCORRECT' };
             }
-    
+
             if (user.password !== password) {
                 throw { status: 401, message: 'PASSWORD IS INCORRECT' };
             }
-    
+
             const token = jwt.sign({ userId: user._id }, 'your-secret-key');
             const { roles, template, modulegroupname, forms, reports, userid, hasUnreadMessages } = user;
-    
+
             // Check for unread messages
             const unreadMessages = hasUnreadMessages || false;
-    
+
+            // Set last login time
+            user.lastLogin = Date.now();
+            await user.save();
+
             // Set unread messages flag to false after checking
             user.hasUnreadMessages = false;
             await user.save();
-    
+
             return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
         } catch (error) {
             throw { status: 500, message: 'Error logging in.' };
         }
     },
-    
+
 
     UpdateLocation: async (token, location) => {
         try {
