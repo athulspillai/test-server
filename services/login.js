@@ -42,7 +42,7 @@ const UserService = {
             const unreadMessages = hasUnreadMessages || false;
 
             // Set last login time
-            user.lastLogin = Date.now();
+            user.lastLogin = new Date();
             await user.save();
 
             // Set unread messages flag to false after checking
