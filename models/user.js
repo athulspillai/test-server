@@ -1,8 +1,10 @@
+// User.js
+
 import mongoose from 'mongoose';
 
-const { Schema } = mongoose; // Import Schema from mongoose
+const { Schema } = mongoose;
 
-const userSchema = new Schema({ // Use Schema instead of mongoose.Schema
+const userSchema = new Schema({
     userid: {
         type: String,
         required: true,
@@ -57,10 +59,12 @@ const userSchema = new Schema({ // Use Schema instead of mongoose.Schema
     lastLogin: {
         type: Date,
         default: Date.now
-    }
+    },
+    loginHistory: [Date] // Array to store login history
 });
 
 const User = mongoose.model('User', userSchema);
 
 export default User;
+
 

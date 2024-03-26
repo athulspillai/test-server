@@ -29,6 +29,7 @@ const UserController = {
                 userid: result.userid,
                 hasUnreadMessages: result.hasUnreadMessages, // Add hasUnreadMessages to the response
                 lastLogin: result.lastLogin
+                
             });
         } catch (error) {
             res.status(error.status).json({ message: error.message });
