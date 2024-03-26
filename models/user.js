@@ -57,10 +57,9 @@ const userSchema = new Schema({
         }
     ],
     lastLogin: {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: null // This will be the default value if the user has never logged in
     },
-    loginHistory: [Date] // Array to store login history
 });
 
 const User = mongoose.model('User', userSchema);
