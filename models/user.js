@@ -60,7 +60,7 @@ const userSchema = new Schema({
         type: String,
         default: null // This will be the default value if the user has never logged in
     },
-});
+},{ timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 
