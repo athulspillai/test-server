@@ -27,7 +27,7 @@ const userSchema = new Schema({
     },
     image: {
         type: String,
-        required: true
+        required: true,
     },
     isAdmin: {
         type: Boolean,
@@ -45,7 +45,7 @@ const userSchema = new Schema({
         default: null,
     },
     forms: [{
-        type: String,
+        type: String, 
     }],
     reports: [{
         type: String,

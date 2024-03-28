@@ -2,48 +2,52 @@ import User from "../models/user.js";
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
 
+// Multer setup for handling image uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // specify the directory for storing uploaded images
+        cb(null, 'uploads/') // Destination folder for storing images
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // generate unique filename
+        cb(null, Date.now() + '-' + file.originalname); // Unique filename
     }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage }).single('image'); // 'image' should match the field name in the form for image upload
 
 const UserService = {
-    RegisterUser: async (req, res) => {
-        upload.single('image')(req, res, async (err) => {
-            if (err instanceof multer.MulterError) {
-                // A Multer error occurred when uploading.
-                return res.status(500).json({ status: 500, message: 'Error uploading image.' });
-            } else if (err) {
-                // An unknown error occurred when uploading.
-                return res.status(500).json({ status: 500, message: 'Unknown error uploading image.' });
+    RegisterUser: async (details, image) => { // Accept image parameter
+        const { userid, username, password, email, roles, forms, reports } = details;
+
+        try {
+            // Check if the username already exists
+            const existingUser = await User.findOne({ userid });
+            if (existingUser) {
+                return { status: 409, message: 'Username already exists.' };
             }
 
-            const { userid, username, password, email, roles, forms, reports } = req.body;
-            const image = req.file; // Get the uploaded image
-
-            try {
-                // Check if the username already exists
-                const existingUser = await User.findOne({ userid });
-                if (existingUser) {
-                    return res.status(409).json({ status: 409, message: 'Username already exists.' });
+            // Create a new user
+            const newUser = new User({ username, userid, password, email, roles, forms, reports });
+            
+            // Upload image
+            upload(req, res, async function (err) {
+                if (err instanceof multer.MulterError) {
+                    // A Multer error occurred when uploading.
+                    throw { status: 500, message: 'Error uploading image.' };
+                } else if (err) {
+                    // An unknown error occurred when uploading.
+                    throw { status: 500, message: 'Unknown error uploading image.' };
                 }
 
-                // Create a new user
-                const newUser = new User({ username, userid, password, email, roles, forms, reports, image });
+                // Image uploaded successfully, save user
+                newUser.image = req.file.path; // Assuming 'image' is the field name in the form
                 await newUser.save();
 
-                return res.status(201).json({ status: 201, message: 'User registered successfully.' });
-            } catch (error) {
-                // Handle any errors during registration
-                return res.status(500).json({ status: 500, message: 'Error registering user.' });
-            }
-        });
+                return { status: 201, message: 'User registered successfully.' };
+            });
+        } catch (error) {
+            // Handle any errors during registration
+            return { status: 500, message: 'Error registering user.' };
+        }
     },
 
     LoginUser: async (username, password) => {
@@ -64,7 +68,7 @@ const UserService = {
             // Check for unread messages
             const unreadMessages = hasUnreadMessages || false;
 
-            // Set last login time
+            // Set last login time  
             user.lastLogin = new Date();
             await user.save();
 
@@ -72,7 +76,7 @@ const UserService = {
             user.hasUnreadMessages = false;
             await user.save();
 
-            return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
+            return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, lastLogin,  hasUnreadMessages: unreadMessages, message: 'Login successful.' };
         } catch (error) {
             throw { status: 500, message: 'Error logging in.' };
         }
