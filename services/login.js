@@ -1,21 +1,8 @@
 import User from "../models/user.js";
 import jwt from 'jsonwebtoken';
-import multer from 'multer';
-
-// Multer setup for handling image uploads
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/') // Destination folder for storing images
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname); // Unique filename
-    }
-});
-
-const upload = multer({ storage: storage }).single('image'); // 'image' should match the field name in the form for image upload
 
 const UserService = {
-    RegisterUser: async (details, image) => { // Accept image parameter
+    RegisterUser: async (details) => {
         const { userid, username, password, email, roles, forms, reports } = details;
 
         try {
@@ -27,23 +14,9 @@ const UserService = {
 
             // Create a new user
             const newUser = new User({ username, userid, password, email, roles, forms, reports });
-            
-            // Upload image
-            upload(req, res, async function (err) {
-                if (err instanceof multer.MulterError) {
-                    // A Multer error occurred when uploading.
-                    throw { status: 500, message: 'Error uploading image.' };
-                } else if (err) {
-                    // An unknown error occurred when uploading.
-                    throw { status: 500, message: 'Unknown error uploading image.' };
-                }
+            await newUser.save();
 
-                // Image uploaded successfully, save user
-                newUser.image = req.file.path; // Assuming 'image' is the field name in the form
-                await newUser.save();
-
-                return { status: 201, message: 'User registered successfully.' };
-            });
+            return { status: 201, message: 'User registered successfully.' };
         } catch (error) {
             // Handle any errors during registration
             return { status: 500, message: 'Error registering user.' };
