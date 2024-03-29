@@ -1,6 +1,6 @@
 import User from "../models/user.js";
 import jwt from 'jsonwebtoken';
-
+  
 const UserService = {
     RegisterUser: async (details) => {
         const { userid, username, password, email, roles, forms, reports } = details;
