@@ -1,23 +1,15 @@
 import UserService from "../services/login.js";
-import User from "../models/user.js";
 
 const UserController = {
     RegisterUser: async (req, res) => {
         try {
-            // Extract form data including image
-            const { username, userid, password, email, roles, forms, reports } = req.body;
-            const image = req.file.path; // Path to the uploaded image
+            const registrationDetails = req.body;
+            const result = await UserService.RegisterUser(registrationDetails);
 
-            // Create a new user
-            const newUser = new User({ username, userid, password, email, roles, forms, reports, image });
-
-            // Save user to database
-            await newUser.save();
-
-            res.status(201).json({ message: 'User registered successfully.' });
+            res.status(result.status).json({ message: result.message });
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: 'Error registering user.' });
+            // Handle other potential errors
+            res.status(500).json({ message: 'Internal Server Error' });
         }
     },
 
