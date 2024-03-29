@@ -2,27 +2,27 @@ import User from "../models/user.js";
 import jwt from 'jsonwebtoken';
 
 const UserService = {
-    RegisterUser: async (details, image) => {
+    RegisterUser: async (details) => {
         const { userid, username, password, email, roles, forms, reports } = details;
-    
+
         try {
             // Check if the username already exists
             const existingUser = await User.findOne({ userid });
             if (existingUser) {
                 return { status: 409, message: 'Username already exists.' };
             }
-    
+
             // Create a new user
-            const newUser = new User({ username, userid, password, email, roles, forms, reports, image });
+            const newUser = new User({ username, userid, password, email, roles, forms, reports });
             await newUser.save();
-    
+
             return { status: 201, message: 'User registered successfully.' };
         } catch (error) {
             // Handle any errors during registration
             return { status: 500, message: 'Error registering user.' };
         }
     },
-    
+
     LoginUser: async (username, password) => {
         try {
             const user = await User.findOne({ username });
