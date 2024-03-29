@@ -29,6 +29,7 @@ const userSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    image: String,
     location: {
         type: {
             latitude: {
