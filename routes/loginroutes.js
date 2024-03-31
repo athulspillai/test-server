@@ -1,17 +1,29 @@
 import express from 'express'
 import UserController from '../controllers/login.js';
 import User from '../models/user.js';
+import multer from 'multer';
 
 
 const router = express.Router();
 
-router.post('/register', UserController.RegisterUser)
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // Destination folder for uploaded files
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname); // Use the original file name
+    }
+});
+
+const upload = multer({ storage: storage });
+
+router.post('/register', upload.single('image'), UserController.RegisterUser);
 router.post('/login', UserController.LoginUser)
 router.post('/update-location', UserController.UpdateLocation)
 
 router.get('/users', async (req, res) => {
     try {
-        const users = await User.find();
+        const users = await User.find();z
         res.status(200).json(users)
     } catch (error) {
         res.status(500).json({ message: 'Error while users details' })
