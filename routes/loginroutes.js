@@ -30,37 +30,21 @@ router.get('/users', async (req, res) => {
     }
 })
 
-router.get('/users/:userid', async (req, res) => {
+router.get('/users/:userid', async (req,res) => {
     try {
         const userid = req.params.userid;
 
         const user = await User.findOne({ userid });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" })
+        if(!user) {
+            return res.status(404).json({ message: "User not found"})
         }
         res.status(200).json(user)
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Error while fetching user details." });
+        res.status(500).json({ message: "Error while fetching particular user details." });
     }
 })
 
-router.get('/users/:username', async (req, res) => {
-    try {
-        const username = req.params.username;
-        const user = await User.findOne({ username });
-
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        // Assuming your user schema has properties like username, email, etc.
-        res.status(200).json(user);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Error while fetching user details." });
-    }
-});
 
 
 export default router
