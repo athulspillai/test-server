@@ -26,7 +26,7 @@ const port = process.env.PORT || 8000;
 
 server.use(cors({origin:"*"}));
 server.use(express.json({limit:'50mb'}));
-server.use('/uploads', express.static('uploads'));
+server.use('/uploads', express.static('uploads/images'));
 
 connectToDatabase()
 
