@@ -21,6 +21,10 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    mobilenumber: {
+        type: Number,
+        required: true
+    },
     roles: {
         type: String,
         required: true,

@@ -20,6 +20,8 @@ const upload = multer({ storage: storage });
 router.post('/register', upload.single('image'), UserController.RegisterUser);
 router.post('/login', UserController.LoginUser)
 router.post('/update-location', UserController.UpdateLocation)
+router.post('/delete-user', UserController.DeleteUser)
+router.post('/update-user', UserController.UpdateUser)
 
 router.get('/users', async (req, res) => {
     try {

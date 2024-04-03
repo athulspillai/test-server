@@ -1,9 +1,9 @@
 import User from "../models/user.js";
 import jwt from 'jsonwebtoken';
-  
+
 const UserService = {
     RegisterUser: async (details) => {
-        const { userid, username, password, email, roles, forms, reports } = details;
+        const { userid, username, password, email, mobilenumber, roles, forms, reports } = details;
 
         try {
             // Check if the username already exists
@@ -13,7 +13,7 @@ const UserService = {
             }
 
             // Create a new user
-            const newUser = new User({ username, userid, password, email, roles, forms, reports });
+            const newUser = new User({ username, userid, password, email, mobilenumber, roles, forms, reports });
             await newUser.save();
 
             return { status: 201, message: 'User registered successfully.' };
@@ -23,9 +23,9 @@ const UserService = {
         }
     },
 
-    LoginUser: async (username, password) => {
+    LoginUser: async (mobilenumber, password) => {
         try {
-            const user = await User.findOne({ username });
+            const user = await User.findOne({ mobilenumber });
 
             if (!user) {
                 throw { status: 401, message: 'ID IS INCORRECT' };
@@ -49,7 +49,7 @@ const UserService = {
             user.hasUnreadMessages = false;
             await user.save();
 
-            return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, lastLogin,  hasUnreadMessages: unreadMessages, message: 'Login successful.' };
+            return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
         } catch (error) {
             throw { status: 500, message: 'Error logging in.' };
         }
@@ -68,6 +68,42 @@ const UserService = {
             throw { status: 500, message: 'Error updating location.' };
         }
     },
+
+    DeleteUser: async (userid) => {
+        try {
+            const deleteUser = await User.findOneAndDelete({ userid })
+            if (!deleteUser) {
+                throw {
+                    status: 404,
+                    message: 'user not found'
+                }
+            }
+            return deleteUser
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Error while deleting user'
+            }
+        }
+    },
+
+    UpdateUser: async (userid, newUserName, newRoles, newForms, newReports, newEmail) => {
+        try {
+            const updatedUser = await User.findOneAndUpdate(
+                { userid },
+                { $set: { username: newUserName, roles: newRoles, forms: newForms, reports: newReports, email: newEmail } }, // Updated to include roles
+                { new: true }
+            )
+
+            if (!updatedUser) {
+                throw { status: 404, message: 'User not found' }
+            }
+            return updatedUser
+        } catch (error) {
+            throw { status: 500, message: 'Error while updating user.' };
+        }
+    }
+
 }
 
 export default UserService
