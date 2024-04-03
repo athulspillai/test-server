@@ -30,6 +30,7 @@ const UserController = {
             // Modify the response to include hasUnreadMessages
             res.status(result.status).json({
                 token: result.token,
+                username: result.username,
                 roles: result.roles,
                 template: result.template,
                 forms: result.forms,

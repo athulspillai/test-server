@@ -36,7 +36,7 @@ const UserService = {
             }
 
             const token = jwt.sign({ userId: user._id }, 'your-secret-key');
-            const { roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages } = user;
+            const { username, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages } = user;
 
             // Check for unread messages
             const unreadMessages = hasUnreadMessages || false;
@@ -49,7 +49,7 @@ const UserService = {
             user.hasUnreadMessages = false;
             await user.save();
 
-            return { status: 200, token, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
+            return { status: 200, token, username, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
         } catch (error) {
             throw { status: 500, message: 'Error logging in.' };
         }
