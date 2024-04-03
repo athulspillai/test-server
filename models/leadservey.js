@@ -51,7 +51,6 @@ const leadserveySchema = new mongoose.Schema({
     },
     LName: {
         type: String,
-        required: true,
         validate: {
             validator: function (v) {
                 return /^[a-zA-Z]+$/.test(v); // Validates that only alphabetic characters are present
@@ -132,16 +131,13 @@ const leadserveySchema = new mongoose.Schema({
         required: true,
     },
     ApproxQtyBuyinKg: {
-        type: Number,
-        required: true
+        type: Number
     },
     DaPurVal: {
-        type: Number,
-        required: true
+        type: Number
     },
     KeySkus: {
-        type: String,
-        required: true
+        type: String
     },
     assigned: {
         type: Boolean,
