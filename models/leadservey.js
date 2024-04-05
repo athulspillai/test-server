@@ -137,7 +137,8 @@ const leadserveySchema = new mongoose.Schema({
         type: Number
     },
     KeySkus: {
-        type: String
+        type: [String], // Changed to an array of strings for storing multiple selected options
+        default: []
     },
     assigned: {
         type: Boolean,
