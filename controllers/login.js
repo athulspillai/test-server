@@ -70,8 +70,8 @@ const UserController = {
 
     UpdateUser: async (req, res) => {
         try {
-            const { userid, newUserName, newRoles, newForms, newReports, newEmail} = req.body;
-            const updatedUser = await UserService.UpdateUser(userid, newUserName, newRoles, newForms, newReports, newEmail)
+            const { userid, newUserName, newRoles, newForms, newReports, newEmail, newMobilenumber} = req.body;
+            const updatedUser = await UserService.UpdateUser(userid, newUserName, newRoles, newForms, newReports, newEmail, newMobilenumber)
             res.status(200).json({ message: 'User is updated', user: updatedUser });
         } catch (error) {
             console.error('Error while updating user:', error);

@@ -87,11 +87,11 @@ const UserService = {
         }
     },
 
-    UpdateUser: async (userid, newUserName, newRoles, newForms, newReports, newEmail) => {
+    UpdateUser: async (userid, newUserName, newRoles, newForms, newReports, newEmail, newMobilenumber) => {
         try {
             const updatedUser = await User.findOneAndUpdate(
                 { userid },
-                { $set: { username: newUserName, roles: newRoles, forms: newForms, reports: newReports, email: newEmail } }, // Updated to include roles
+                { $set: { username: newUserName, roles: newRoles, forms: newForms, reports: newReports, email: newEmail, mobilenumber: newMobilenumber } }, // Updated to include roles
                 { new: true }
             )
 
