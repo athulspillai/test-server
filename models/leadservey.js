@@ -53,11 +53,13 @@ const leadserveySchema = new mongoose.Schema({
         type: String,
         validate: {
             validator: function (v) {
-                return /^[a-zA-Z]+$/.test(v); // Validates that only alphabetic characters are present
+                // Validate if the value is empty or contains only alphabetic characters and spaces
+                return v === '' || /^[a-zA-Z\s]+$/.test(v);
             },
-            message: props => `${props.value} can only contain alphabetic characters!`
+            message: props => `${props.value} can only contain alphabetic characters and spaces!`
         }
     },
+    
     Addr1: {
         type: String,
         required: true
@@ -96,7 +98,7 @@ const leadserveySchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function (v) {
-                return /^\d{10}$/.test(v); // Checks if MobNum is a 10-digit number
+                return  /^\d{10}$/.test(v); // Checks if MobNum is a 10-digit number
             },
             message: props => `${props.value} is not a valid 10-digit Mobile Number!`
         }
@@ -105,11 +107,12 @@ const leadserveySchema = new mongoose.Schema({
         type: Number,
         validate: {
             validator: function (v) {
-                return /^\d{10}$/.test(v) || v === undefined; // Checks if AltMobNum is a 10-digit number or undefined
+                // Check if AltMobNum is empty or a 10-digit number
+                return v === '' || /^\d{10}$/.test(v);
             },
             message: props => `${props.value} is not a valid 10-digit Mobile Number!`
         }
-    },
+    },    
     EmailId: {
         type: String,
         required: true
