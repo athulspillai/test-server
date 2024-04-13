@@ -104,7 +104,7 @@ const leadserveySchema = new mongoose.Schema({
         }
     },
     AltMobNum: {
-        type: Number,
+        type: String,
         validate: {
             validator: function (v) {
                 // Check if AltMobNum is empty or a 10-digit number
