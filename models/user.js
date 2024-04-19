@@ -48,7 +48,7 @@ const userSchema = new Schema({
         default: null,
     },
     forms: [{
-        type: String, 
+        type: String,
     }],
     reports: [{
         type: String,
@@ -66,6 +66,12 @@ const userSchema = new Schema({
     lastLogin: {
         type: String,
         default: null // This will be the default value if the user has never logged in
+    },
+    otp: {
+        type: String
+    },
+    otpExpiration: {
+        type: Date
     },
 });
 
