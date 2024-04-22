@@ -3,6 +3,7 @@ import express from "express";
 import Leadprocessing from "../models/leadprocessing.js";
 import Leadservey from "../models/leadservey.js";
 import User from "../models/user.js";
+import Prospect from "../models/prospect.js";
 
 const router = express.Router();
 
@@ -63,18 +64,38 @@ router.post('/assign', async (req, res) => {
 //         });
 // });
 
-router.put('/leadprocessing/:id', (req, res) => {
-    const { interested, date } = req.body;
+router.put('/leadprocessing/:id', async (req, res) => {
+    try {
+        const { interested, date } = req.body;
+        const notInterested = !interested;
 
-    // Assuming you have a field named 'date' in your Leadprocessing schema
-    Leadprocessing.findByIdAndUpdate(req.params.id, { interested, date }, { new: true })
-        .then(updatedLead => {
-            res.json(updatedLead);
-        })
-        .catch(err => {
-            console.error('Error updating lead interest status:', err);
-            res.status(500).send('Error updating lead interest status');
-        });
+        // Update the interested status in the Leadprocessing model
+        const updatedLead = await Leadprocessing.findByIdAndUpdate(req.params.id, { interested, date, notInterested }, { new: true });
+
+        // If interested, create a new entry in the Prospect model
+        if (interested) {
+            // Extract relevant data from updatedLead or req.body
+            const { leadSurveyId, leadserveyDetails, username } = updatedLead;
+
+            // Create a new prospect entry
+            const prospect = new Prospect({
+                leadSurveyId,
+                username,
+                leadDetails: leadserveyDetails,
+                interested: true,
+                date: new Date()
+            });
+
+            // Save the prospect entry
+            await prospect.save();
+        }
+
+        // Return the updated lead
+        res.json(updatedLead);
+    } catch (error) {
+        console.error('Error updating lead interest status:', error);
+        res.status(500).send('Error updating lead interest status');
+    }
 });
 
 
@@ -110,6 +131,15 @@ router.delete('/delete-all-leadprocessing', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+router.get('/prospect', async (req, res) => {
+    try {
+        const prospect = await Prospect.find();
+        res.status(200).json(prospect)
+    } catch (error) {
+        res.status(500).json({ message: 'Error while fetching prospect details.' })
+    }
+})
 
 export default router;
 
