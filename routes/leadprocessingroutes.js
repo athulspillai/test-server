@@ -49,11 +49,25 @@ router.post('/assign', async (req, res) => {
 });
 
 
-router.put('/leadprocessing/:id', (req, res) => {
-    const { interested } = req.body;
-    const notInterested = !interested; // Toggle the value to set notInterested
+// router.put('/leadprocessing/:id', (req, res) => {
+//     const { interested } = req.body;
+//     const notInterested = !interested; // Toggle the value to set notInterested
 
-    Leadprocessing.findByIdAndUpdate(req.params.id, { interested, notInterested }, { new: true })
+//     Leadprocessing.findByIdAndUpdate(req.params.id, { interested, notInterested }, { new: true })
+//         .then(updatedLead => {
+//             res.json(updatedLead);
+//         })
+//         .catch(err => {
+//             console.error('Error updating lead interest status:', err);
+//             res.status(500).send('Error updating lead interest status');
+//         });
+// });
+
+router.put('/leadprocessing/:id', (req, res) => {
+    const { interested, date } = req.body;
+
+    // Assuming you have a field named 'date' in your Leadprocessing schema
+    Leadprocessing.findByIdAndUpdate(req.params.id, { interested, date }, { new: true })
         .then(updatedLead => {
             res.json(updatedLead);
         })
@@ -62,6 +76,7 @@ router.put('/leadprocessing/:id', (req, res) => {
             res.status(500).send('Error updating lead interest status');
         });
 });
+
 
 router.delete('/leadprocessing/:id', async (req, res) => {
     try {

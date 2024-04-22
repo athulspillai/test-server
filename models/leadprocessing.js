@@ -21,7 +21,11 @@ const leadprocessingSchema = new mongoose.Schema({
     notInterested: {
         type: Boolean,
         default: false
-    }
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
 }, { timestamps: true });
 
 const Leadprocessing = mongoose.model('Leadprocessing', leadprocessingSchema)
