@@ -75,14 +75,12 @@ router.put('/leadprocessing/:id', async (req, res) => {
         // If interested, create a new entry in the Prospect model
         if (interested) {
             // Extract relevant data from updatedLead or req.body
-            const { leadSurveyId, leadserveyDetails, username } = updatedLead;
+            const { leadSurveyId, username } = updatedLead;
+            const leadserveyDetails = updatedLead.toObject(); // Convert Leadprocessing data to plain JS object
 
             // Create a new prospect entry
             const prospect = new Prospect({
-                leadSurveyId,
-                username,
                 leadDetails: leadserveyDetails,
-                interested: true,
                 date: new Date()
             });
 
