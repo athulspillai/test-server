@@ -13,7 +13,7 @@ const leadserveyonlineSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Methods: {
+    Communication: {
         type: String,
         required: true
     },
