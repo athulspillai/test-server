@@ -66,6 +66,10 @@ const leadserveyonlineSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    assigned: {
+        type: Boolean,
+        default: false
+    },
 }, { timestamps: true })
 
 const Leadserveyonline = mongoose.model('Leadserveyonline', leadserveyonlineSchema)

@@ -13,6 +13,34 @@ const LeadserveyonlineService = {
                 })
             }
         })
+    },
+    DeleteLeadserveyonline: async (leadonlineserveyid) => {
+        try {
+            const deleteLeadonlineservey = await Leadserveyonline.findOneAndDelete({ leadonlineserveyid })
+
+            if (!deleteLeadonlineservey) {
+                throw {
+                    status: 404,
+                    message: 'Leadonlineservey not found.'
+                }
+            }
+            return deleteLeadonlineservey
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Error while deleting Leadonlineservey'
+            }
+        }
+    },
+    DeleteAllLeadserveyonline: async () => {
+        try {
+            await Leadserveyonline.deleteMany({});
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Error while deleting all Leadonlineservey'
+            };
+        }
     }
 }
 
