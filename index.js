@@ -27,6 +27,7 @@ server.use(cors({origin:"*"}));
 server.use(express.json({limit:'50mb'}));
 server.use('/uploads', express.static('uploads'));
 
+
 connectToDatabase()
 
 server.use('/category', categoryroutes)

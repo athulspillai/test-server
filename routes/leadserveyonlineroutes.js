@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/add-leadserveyonline', LeadserveyonlineController.AddLeadserveyonline)
 router.post('/delete-leadserveyonline', LeadserveyonlineController.DeleteLeadserveyonline)
 router.post('/delete-all-leadserveyonline', LeadserveyonlineController.DeleteAllLeadserveyonline)
+router.post('/update-leadserveyonline', LeadserveyonlineController.UpdateLeadserveyonline)
 
 router.get('/leadserveyonline', async (req, res) => {
     try {

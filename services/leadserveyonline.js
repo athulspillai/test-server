@@ -41,7 +41,23 @@ const LeadserveyonlineService = {
                 message: 'Error while deleting all Leadonlineservey'
             };
         }
-    }
+    },
+
+    UpdateLeadserveyonline: async (leadserveyonlineid, newCommunication, newBizName, newFName, newLName, newMobNum, newEmailId, newState, newCity, newArea) => {
+        try {
+            const updatedLeadserveyonline = await Leadserveyonline.findOneAndUpdate(
+                { leadserveyonlineid },
+                { $set: { Communication:newCommunication, BizName:newBizName, FName:newFName, LName:newLName, MobNum:newMobNum, EmailId:newEmailId, State:newState, City:newCity, Area:newArea}},
+                { new: true}
+            )
+            if (!updatedLeadserveyonline){
+                throw { status: 404, message: 'Leadserveyonline not found.'}
+            }
+            return updatedLeadserveyonline
+        } catch (error) {
+            throw { status:500, message: 'Error while updating Leadserveyonline'}
+        }
+    },
 }
 
 export default LeadserveyonlineService

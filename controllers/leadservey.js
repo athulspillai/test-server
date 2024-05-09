@@ -30,6 +30,17 @@ const LeadserveyController = {
             console.error('Error while deleting all leadserveys:', error);
             res.status(error.status || 500).json({ message: error.message || 'Error while deleting all leadserveys' });
         }
+    },
+
+    UpdateLeadservey: async (req, res) => {
+        try {
+            const { leadserveyid, newCustName, newSince,  newBizType, newBizCatge, newFName, newLName, newAddr1, newAddr2, newState, newCity, newArea, newPincode, newMobNum, newAltMobNum, newEmailId, newBizExp, newCurrAddSince, newBizHourFrom, newBizHourTo, newApproxQtyBuyinKg, newDaPurval, newKeyskus} = req.body;
+            const updatedLeadservey = await LeadserveyService.UpdateLeadservey(leadserveyid, newCustName, newSince, newBizType, newBizCatge, newFName, newLName, newAddr1, newAddr2, newState, newCity, newArea, newPincode, newMobNum, newAltMobNum, newEmailId, newBizExp, newCurrAddSince, newBizHourFrom, newBizHourTo, newApproxQtyBuyinKg, newDaPurval, newKeyskus )
+            res.status(200).json({ message: 'Leadservey is updated', lead: updatedLeadservey });
+        } catch (error) {
+            console.error('Error while updating leadservey:', error);
+            res.status(error?.status || 500).json({ message: error?.message || 'Error while updating leadservey' });
+        }
     }
 }
 
