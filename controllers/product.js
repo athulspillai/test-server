@@ -1,16 +1,36 @@
 import ProductService from "../services/product.js";
+import Products from "../models/products.js";
 
 const ProductController = {
+    // AddProduct: async (req, res) => {
+    //     try {
+    //         const response = await ProductService.AddProduct(req?.body)
+
+    //         console.log(response)
+
+    //         res.status(201).json({ message: 'Product is added Successfully' })
+    //     } catch (error) {
+    //         console.error('Error while product adding:', error?.message || error);
+    //         res.status(error?.status || 500).json({ message: error?.message || error })
+    //     }
+    // },
+
     AddProduct: async (req, res) => {
         try {
-            const response = await ProductService.AddProduct(req?.body)
+            // Extract form data including product image and additional fields
+            const { productid, productcode, productname, categoryid, subcategoryid, packingid} = req.body;
+            const productImage = req.file.path; // Path to the uploaded product image
 
-            console.log(response)
+            // Create a new product
+            const newProduct = new Products({ productid, productcode, productname, categoryid, subcategoryid, packingid, productImage });
 
-            res.status(201).json({ message: 'Product is added Successfully' })
+            // Save product to database
+            await newProduct.save();
+
+            res.status(201).json({ message: 'Product added successfully.' });
         } catch (error) {
-            console.error('Error while product adding:', error?.message || error);
-            res.status(error?.status || 500).json({ message: error?.message || error })
+            console.error(error);
+            res.status(500).json({ message: 'Error adding product.' });
         }
     },
 

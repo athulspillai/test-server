@@ -25,6 +25,10 @@ const productsSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    productImage: {
+        type: String, // Assuming the image path will be stored as a string
+        required: true
+    }
 })
 
 const Products = mongoose.model('Products', productsSchema)

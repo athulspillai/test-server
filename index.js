@@ -13,9 +13,8 @@ import loginroutes from './routes/loginroutes.js';
 import gtbuyerroutes from './routes/gtbuyerroutes.js'
 import gtformroutes from './routes/gtformroutes.js'
 import leadserveyroutes from './routes/leadserveyroutes.js'
-import leadserveyonlineroutes from './routes/leadserveyonlineroutes.js'
 import leadprocessingroutes from './routes/leadprocessingroutes.js';
-import leadonlineprocessingroutes from './routes/leadonlineprocessingroutes.js'
+
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -41,9 +40,7 @@ server.use('/user', loginroutes )
 server.use('/gtbuyer', gtbuyerroutes)
 server.use('/gtform', gtformroutes)
 server.use('/leadservey', leadserveyroutes)
-server.use('/leadserveyonline', leadserveyonlineroutes)
 server.use('/leadprocessing', leadprocessingroutes)
-server.use('/leadonlineprocessing',leadonlineprocessingroutes)
 
 
 
