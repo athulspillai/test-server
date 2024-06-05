@@ -115,7 +115,6 @@ const leadserveySchema = new mongoose.Schema({
     },    
     EmailId: {
         type: String,
-        required: true
     },
     BizExp: {
         type: String,
