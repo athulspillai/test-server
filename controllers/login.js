@@ -5,11 +5,11 @@ const UserController = {
     RegisterUser: async (req, res) => {
         try {
             // Extract form data including image
-            const { username, userid, password, email, mobilenumber, roles, forms, reports } = req.body;
+            const { username, userid, password, email, mobilenumber, roles, branches, forms, reports } = req.body;
             const image = req.file.path; // Path to the uploaded image
 
             // Create a new user
-            const newUser = new User({ username, userid, password, email, mobilenumber, roles, forms, reports, image });
+            const newUser = new User({ username, userid, password, email, mobilenumber, roles, branches, forms, reports, image });
 
             // Save user to database
             await newUser.save();

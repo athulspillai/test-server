@@ -4,6 +4,15 @@ import Leadprocessing from "../models/leadprocessing.js";
 import Leadservey from "../models/leadservey.js";
 import User from "../models/user.js";
 import Prospect from "../models/prospect.js";
+import twilio from "twilio";
+import dotenv from "dotenv";
+dotenv.config();
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+
+const client = twilio(accountSid, authToken);
 
 const router = express.Router();
 
@@ -15,6 +24,11 @@ router.post('/assign', async (req, res) => {
     }
 
     try {
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
         const assignments = await Promise.all(leadSurveyIds.map(async (leadSurveyId) => {
             const leadSurvey = await Leadservey.findById(leadSurveyId);
             if (!leadSurvey) {
@@ -25,7 +39,23 @@ router.post('/assign', async (req, res) => {
                 username,
                 leadSurveyId,
                 leadserveyDetails: leadSurvey.toObject(),
+                mobilenumber: user.mobilenumber, // Include the mobilenumber here
             });
+
+            // Send SMS using Twilio
+            try {
+                const formattedPhoneNumber = `+91${user.mobilenumber}`; // Assuming user.mobilenumber is the last 10 digits without country code
+
+                const message = await client.messages.create({
+                    body: `Hello ${username}, Admin Assigned Lead Survey to you. Please login in primefresh.app`,
+                    to: formattedPhoneNumber,
+                    from: twilioPhoneNumber,
+                });
+                console.log('SMS sent successfully:', message.sid);
+            } catch (smsError) {
+                console.error('Error sending SMS:', smsError);
+                return null; // Return null or handle failure as needed
+            }
 
             // Update user document atomically
             const updatedUser = await User.findOneAndUpdate(
@@ -48,6 +78,7 @@ router.post('/assign', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 
 
 // router.put('/leadprocessing/:id', (req, res) => {

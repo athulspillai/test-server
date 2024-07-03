@@ -25,6 +25,10 @@ const userSchema = new Schema({
         type: Number,
         required: true
     },
+    branches: [{
+        type: String,
+        required: true
+    }],
     roles: {
         type: String,
         required: true,

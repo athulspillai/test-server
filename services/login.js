@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const UserService = {
     RegisterUser: async (details) => {
-        const { userid, username, password, email, mobilenumber, roles, forms, reports } = details;
+        const { userid, username, password, email, mobilenumber, roles, branches, forms, reports } = details;
 
         try {
             // Check if the username already exists
@@ -13,7 +13,7 @@ const UserService = {
             }
 
             // Create a new user
-            const newUser = new User({ username, userid, password, email, mobilenumber, roles, forms, reports });
+            const newUser = new User({ username, userid, password, email, mobilenumber, roles, branches, forms, reports });
             await newUser.save();
 
             return { status: 201, message: 'User registered successfully.' };

@@ -9,6 +9,7 @@ import stateroutes from './routes/stateroutes.js'
 import cityroutes from './routes/cityroutes.js'
 import arearoutes from './routes/arearoutes.js'
 import loginroutes from './routes/loginroutes.js';
+import branchesroutes from './routes/branchesroute.js'
 import leadserveyroutes from './routes/leadserveyroutes.js'
 import leadprocessingroutes from './routes/leadprocessingroutes.js';
 import dotenv from 'dotenv'
@@ -33,6 +34,7 @@ server.use('/state', stateroutes)
 server.use('/city', cityroutes)
 server.use('/area', arearoutes)
 server.use('/user', loginroutes )
+server.use('/branches', branchesroutes)
 server.use('/leadservey', leadserveyroutes)
 server.use('/leadprocessing', leadprocessingroutes)
 

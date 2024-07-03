@@ -14,6 +14,10 @@ const leadprocessingSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.Mixed, // Store the lead survey details as a nested object
         required: true
     },
+    mobilenumber: { // Add this field
+        type: Number,
+        required: true
+    },
     interested: {
         type: Boolean,
         default: false
