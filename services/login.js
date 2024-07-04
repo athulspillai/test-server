@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 const UserService = {
     RegisterUser: async (details) => {
-        const { userid, username, password, email, mobilenumber, roles, branches, forms, reports } = details;
+        const { userid, username, password, email, mobilenumber, department, branches, forms, reports } = details;
 
         try {
             // Check if the username already exists
@@ -13,7 +13,7 @@ const UserService = {
             }
 
             // Create a new user
-            const newUser = new User({ username, userid, password, email, mobilenumber, roles, branches, forms, reports });
+            const newUser = new User({ username, userid, password, email, mobilenumber, department, branches, forms, reports });
             await newUser.save();
 
             return { status: 201, message: 'User registered successfully.' };
@@ -36,7 +36,7 @@ const UserService = {
             }
 
             const token = jwt.sign({ userId: user._id }, 'your-secret-key');
-            const { username, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages } = user;
+            const { username, department, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages } = user;
 
             // Check for unread messages
             const unreadMessages = hasUnreadMessages || false;
@@ -49,7 +49,7 @@ const UserService = {
             user.hasUnreadMessages = false;
             await user.save();
 
-            return { status: 200, token, username, roles, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
+            return { status: 200, token, username, department, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
         } catch (error) {
             throw { status: 500, message: 'Error logging in.' };
         }

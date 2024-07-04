@@ -29,7 +29,7 @@ const userSchema = new Schema({
         type: String,
         required: true
     }],
-    roles: {
+    department: {
         type: String,
         required: true,
     },
