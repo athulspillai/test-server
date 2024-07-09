@@ -34,6 +34,7 @@ const UserController = {
                 token: result.token,
                 username: result.username,
                 department: result.department,
+                branches: result.branches,
                 template: result.template,
                 forms: result.forms,
                 reports: result.reports,
@@ -72,8 +73,8 @@ const UserController = {
 
     UpdateUser: async (req, res) => {
         try {
-            const { userid, newUserName, newRoles, newForms, newReports, newEmail, newMobilenumber} = req.body;
-            const updatedUser = await UserService.UpdateUser(userid, newUserName, newRoles, newForms, newReports, newEmail, newMobilenumber)
+            const { userid, newUserName, newDepartment, newForms, newReports, newEmail, newMobilenumber} = req.body;
+            const updatedUser = await UserService.UpdateUser(userid, newUserName, newDepartment, newForms, newReports, newEmail, newMobilenumber)
             res.status(200).json({ message: 'User is updated', user: updatedUser });
         } catch (error) {
             console.error('Error while updating user:', error);

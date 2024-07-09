@@ -36,7 +36,7 @@ const UserService = {
             }
 
             const token = jwt.sign({ userId: user._id }, 'your-secret-key');
-            const { username, department, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages } = user;
+            const { username, department, branches, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages } = user;
 
             // Check for unread messages
             const unreadMessages = hasUnreadMessages || false;
@@ -49,7 +49,7 @@ const UserService = {
             user.hasUnreadMessages = false;
             await user.save();
 
-            return { status: 200, token, username, department, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
+            return { status: 200, token, username, department, branches, template, modulegroupname, forms, reports, userid, lastLogin, hasUnreadMessages: unreadMessages, message: 'Login successful.' };
         } catch (error) {
             throw { status: 500, message: 'Error logging in.' };
         }
@@ -87,11 +87,11 @@ const UserService = {
         }
     },
 
-    UpdateUser: async (userid, newUserName, newRoles, newForms, newReports, newEmail, newMobilenumber) => {
+    UpdateUser: async (userid, newUserName, newDepartment, newForms, newReports, newEmail, newMobilenumber) => {
         try {
             const updatedUser = await User.findOneAndUpdate(
                 { userid },
-                { $set: { username: newUserName, roles: newRoles, forms: newForms, reports: newReports, email: newEmail, mobilenumber: newMobilenumber } }, // Updated to include roles
+                { $set: { username: newUserName, department: newDepartment, forms: newForms, reports: newReports, email: newEmail, mobilenumber: newMobilenumber } }, // Updated to include roles
                 { new: true }
             )
 
